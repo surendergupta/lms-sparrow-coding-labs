@@ -109,7 +109,7 @@ f2b31f0d8e134681a6d898d5c71bdeaa
 
 - Create First Admin User for jenkins
     - username: sprarrowlabs
-    - password: Hero@2024#sprarrowlabs
+    - password: <YOUR_PASSWORD>
     - fullname: Sparrow Coding Labs
     - email_address: gupta.surender.1990@gmail.com
 
@@ -159,7 +159,7 @@ docker run -itd --name sonarqube-server -p 9000:9000 sonarqube:lts-community
 
 - Set New Password
     - oldpassword: admin
-    - newpassword: Hero@2024#sprarrowlabs
+    - newpassword: <YOUR_PASSWORD>
 
 - Now You see Dashboard
 
@@ -1133,7 +1133,7 @@ pipeline {
 ## Configuration required in backend, frotend, landing and compiler for Helm
 
 - Backend
-    - Secret.yaml file inside helm template of lms-sparrow-be-chart
+1. Secret.yaml file inside helm template of lms-sparrow-be-chart
 ```yaml
 
 PORT: <YOUR_CONTAINER_PORT_NUMBER>
@@ -1147,7 +1147,7 @@ GITHUB_CLIENT_SECRET: <YOUR_GIT_CLIENT_SECRET>
 
 ```
 
-    - deployment.yaml file inside helm template of lms-sparrow-be-chart
+2. deployment.yaml file inside helm template of lms-sparrow-be-chart
 
 ```yaml
 
@@ -1169,14 +1169,15 @@ GITHUB_CLIENT_SECRET: <YOUR_GIT_CLIENT_SECRET>
 ## Configuration required in backend, frotend, landing and compiler for files
 
 1. LMS Landing UI changes
-    - src > app > educal > services > constants.ts
+- src > app > educal > services > constants.ts
 
 ```js
 export const backendUrl = 'YOUR_BACKEND_URL';
 export const frontendUrl = 'YOUR_FRONTEND_URL';
 ```
 
-    - DOCKER FILE
+- DOCKER FILE
+
 ```dockerfile
 # Use a Node.js image as the Build Stage
 FROM node:18 AS build
@@ -1210,26 +1211,28 @@ CMD [ "nginx", "-g", "daemon off;" ]
 ```
 
 2. LMS Backend changes
-    - mvc > controllers > student > courses
-    
-    - executeCode.js create variable URL and replace post url to this variable
+
+- mvc > controllers > student > courses
+- executeCode.js create variable URL and replace post url to this variable
 
 ```js
 const base_compiler_url = `${process.env.COMPILER_URL}submissions?base64_encoded=true&wait=true`;
 ```
 
-    - runSampleTestCases.js create variable URL and replace post url to this variable
+- runSampleTestCases.js create variable URL and replace post url to this variable
 
 ```js
 const base_compiler_url = `${process.env.COMPILER_URL}submissions?base64_encoded=true&wait=true`;
 ```
 
-    - verifyCode.js create variable URL and replace post url to this variable
+- verifyCode.js create variable URL and replace post url to this variable
 
 ```js
 const base_compiler_url = `${process.env.COMPILER_URL}submissions?base64_encoded=true&wait=true`;
 ```
-    - DOCKER FILE
+
+- DOCKER FILE
+
 ```dockerfile
 
 FROM node:18
@@ -1242,7 +1245,8 @@ CMD ["node", "server.js"]
 
 ```
 2. LMS Frontend changes
-    - src > app > services > api > constants.ts
+
+- src > app > services > api > constants.ts
 
 ```js
 import { environment } from '../../../environments/environment';
@@ -1252,8 +1256,11 @@ export const backendUrl = environment.production ? environment.BACKEND_URL : 'YO
 export const frontendUrl = environment.production ? environment.FRONTEND_URL : 'YOUR_FRONTEND_URL';
 
 ```
-    - Also need to change environment file
-    - src > environments > environment.ts
+
+- Also need to change environment file
+
+- src > environments > environment.ts
+
 ```js
 export const environment = {
     production: false,
@@ -1261,7 +1268,9 @@ export const environment = {
     FRONTEND_URL: 'YOUR_FRONTEND_URL';
 };
 ```
-    - src > environments > environment.prod.ts
+
+- src > environments > environment.prod.ts
+
 ```js
 export const environment = {
     production: true,
@@ -1269,7 +1278,9 @@ export const environment = {
     FRONTEND_URL: 'YOUR_FRONTEND_URL';
 };
 ```
-    - DOCKER FILE
+
+- DOCKER FILE
+
 ```dockerfile
 # Use a Node.js image as the Build Stage
 FROM node:18 AS build
@@ -1308,7 +1319,6 @@ EXPOSE 80
 CMD [ "nginx", "-g", "daemon off;" ]
 
 ```
-
 
 ## Terraform Code
 
