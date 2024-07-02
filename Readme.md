@@ -1839,88 +1839,88 @@ variable "node_disk_size" {
 
 To provide an accurate cost estimate for your AWS setup, we'll consider the following components:
 
-EC2 Instance (t3.large) (For Jenkins and SonarQube)
-Provisioned Volume (PV) - EBS Volumes
-Elastic IP (EIP)
-S3 Bucket
-EKS Cluster with 5 nodes (t3a.small) and 25 GB (ssd)
+- EC2 Instance (t3.large) (For Jenkins and SonarQube)
+- Provisioned Volume (PV) - EBS Volumes
+- Elastic IP (EIP)
+- S3 Bucket
+- EKS Cluster with 5 nodes (t3a.small) and 25 GB (ssd)
 
 Let's break down the costs for each component:
 
 1. EC2 Instance (t3.large) (ap-south-1)
-Instance Type: t3.large
-vCPUs: 2
-Memory: 8 GB
-Running Hours: Assuming 24/7 operation (730 hours/month)
+    - Instance Type: t3.large
+    - vCPUs: 2
+    - Memory: 8 GB
+    - Running Hours: Assuming 24/7 operation (730 hours/month)
 
 2. Provisioned Volumes (PV)
-Volume 1: 10 GB
-Volume 2: 4 GB
-Type: General Purpose SSD (gp2)
+    - Volume 1: 10 GB
+    - Volume 2: 4 GB
+    - Type: General Purpose SSD (gp2)
 
 3. Elastic IP (EIP)
-Three EIP associated with a running instance
+    - Three EIP associated with a running instance
 
 4. S3 Bucket (ap-south-1)
-Assume 50 GB of standard storage 
+    - Assume 50 GB of standard storage 
 
 5. EKS Cluster
-Cluster Fee: $0.10 per hour
-Node Type: t3a.small (5 nodes)
-vCPUs: 2 per node
-Memory: 2 GB per node
-Running Hours: Assuming 24/7 operation (730 hours/month)
-We will use the AWS Pricing Calculator to get approximate costs. Here is a detailed breakdown:
+    - Cluster Fee: $0.10 per hour
+    - Node Type: t3a.small (5 nodes)
+    - vCPUs: 2 per node
+    - Memory: 2 GB per node
+    - Running Hours: Assuming 24/7 operation (730 hours/month)
+    - We will use the AWS Pricing Calculator to get approximate costs. Here is a detailed breakdown:
 
 6. DynamoDB (ap-south-1)
-Assume 1 GB of standard storage 
+    - Assume 1 GB of standard storage 
 
-EC2 Instance Cost
-t3.large: $0.0896 per hour
-Monthly Cost: 0.0896 × 730 = $65.408
+- EC2 Instance Cost
+    - t3.large: $0.0896 per hour
+    - Monthly Cost: 0.0896 × 730 = $65.408
 
-EBS Volumes Cost
-General Purpose SSD (gp2): $0.10 per GB-month
-Region1 14 GB Volume:  0.10 × 14 = $1.40
-Region2 14 GB Volume: 0.10 × 14 = $1.40
-Region1 25 GB Volume: (0.10 × 25) × 5 =  12.5
-Region2 25 GB Volume: (0.10 × 25) × 5 =  12.5
-Monthly Cost: 1.00 + 0.40 + 12.5 + 12.5 = $27.80
+7. EBS Volumes Cost
+    - General Purpose SSD (gp2): $0.10 per GB-month
+    - Region1 14 GB Volume:  0.10 × 14 = $1.40
+    - Region2 14 GB Volume: 0.10 × 14 = $1.40
+    - Region1 25 GB Volume: (0.10 × 25) × 5 =  12.5
+    - Region2 25 GB Volume: (0.10 × 25) × 5 =  12.5
+    - Monthly Cost: 1.00 + 0.40 + 12.5 + 12.5 = $27.80  
 
-Elastic IP Cost
-Associated with running instance: $0.005
-EIP = 0.005 × 3 × 730 = $10.95
+8. Elastic IP Cost
+    - Associated with running instance: $0.005
+        - EIP = 0.005 × 3 × 730 = $10.95
 
-S3 Bucket Cost
-Standard Storage: $0.023 per GB-month
-50 GB Storage: 0.023 × 50 = $1.15
+9. S3 Bucket Cost
+    - Standard Storage: $0.023 per GB-month
+    - 50 GB Storage: 0.023 × 50 = $1.15
 
-DynamoDB Cost
-Standard Storage: $0.0 per GB-month
-1 GB Storage: 0.0 × 1 = $0
+10. DynamoDB Cost
+    - Standard Storage: $0.0 per GB-month
+    - 1 GB Storage: 0.0 × 1 = $0
 
-EKS Cluster Cost
-Region1 Cluster Fee: 0.10 × 730 = $73.00
-Region2 Cluster Fee: 0.10 × 730 = $73.00
+11. EKS Cluster Cost
+    - Region1 Cluster Fee: 0.10 × 730 = $73.00
+    - Region2 Cluster Fee: 0.10 × 730 = $73.00
 
-Two Region Monthly Cost: 73.00 + 73.00 = $146.00
+    - Two Region Monthly Cost: 73.00 + 73.00 = $146.00
 
-Node Cost:
-Region1 t3a.small: $0.0123 per hour (AP-SOUTH-1)
-Region2 t3a.small: $0.0188 per hour (US-EAST-1)
-5 Nodes: (0.0123 × 5) × 730 = $44.895
-5 Nodes: (0.0188 × 5) × 730 = $68.62
+12. Node Cost:
+    - Region1 t3a.small: $0.0123 per hour (AP-SOUTH-1)
+    - Region2 t3a.small: $0.0188 per hour (US-EAST-1)
+    - 5 Nodes: (0.0123 × 5) × 730 = $44.895
+    - 5 Nodes: (0.0188 × 5) × 730 = $68.62
 
-Two Region Monthly Cost: 44.895 + 68.62 = $113.515
+    - Two Region Monthly Cost: 44.895 + 68.62 = $113.515
 
-Now, let's summarize the total monthly cost of Two Regions:
+### Now, let's summarize the total monthly cost of Two Regions:
 
-EC2 Instance: $65.408
-EBS Volumes: $27.80
-Elastic IP: $10.95
-S3 Bucket: $1.15
-EKS Cluster Fee: $146.00
-Cluster Node Cost: $113.515
-Total Monthly Cost: 65.408 + 27.80 + 10.95 + 1.15 + 146.00 + 113.515 = $364.823
+- EC2 Instance: $65.408
+- EBS Volumes: $27.80
+- Elastic IP: $10.95
+- S3 Bucket: $1.15
+- EKS Cluster Fee: $146.00
+- Cluster Node Cost: $113.515
+- Total Monthly Cost: 65.408 + 27.80 + 10.95 + 1.15 + 146.00 + 113.515 = $364.823
 
 Therefore, the approximate monthly cost for the specified AWS resources is $364.823. This estimate can vary slightly based on the region and additional services like data transfer, snapshot storage, etc. For precise cost management, using the AWS Pricing Calculator and monitoring the AWS Cost Explorer is recommended.
